@@ -1,0 +1,11 @@
+- provide another non-pydantic code sample, for implementation of MoviePromotion, using native class, and using a @dataclass.
+- provide code samples and exersice for using name args and kwargs in Python functions.
+    - force using name args in a function definition.
+    - force using kwargs in a function definition.
+    - show usage of both
+ - provide code samples, and exersice for other items in the agenda that are not yet addressed.
+ - remove obvious clues from the exercises, so that the user has to think about the solution. Only provide hints.
+
+
+ More todos:
+ - Go over the agen

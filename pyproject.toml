@@ -1,0 +1,36 @@
+[[tool.poetry.source]]
+name = "artifactory-cloud"
+url = "https://cyberark.jfrog.io/artifactory/api/pypi/pas-pypi-virtual/simple"
+priority = "primary"
+
+[tool.poetry]
+name = "srs-common-cyberark"
+version = "1.0"
+description = "Python Bootcamp"
+authors = ["azahavi@paloaltonetworks.com>"]
+readme = "README.md"
+repository = "https://github.cyberng.com/azahavi/python-bootcamp"
+
+[tool.poetry.group.dev.dependencies]
+tools-configuration-cyberark = "7.*"
+# needed for running manuall tests that use everent-env-utils
+infra-automation-utils-cyberark = ">=5"
+mockito = "*"
+pylint-pydantic = "*"
+
+
+[tool.poetry.dependencies]
+python = "^3.13"
+pydantic = "^2.0.0"
+pydantic-settings = "*"
+infra-logging-cyberark = ">=3"
+cachetools = "*"
+tenacity = "*"
+pcloud-shared-infra-common-cyberark = "4.*"
+tenant-management-integrations-cyberark = "9.*"
+infra-tenant-isolation-cyberark = "8.*"
+typing-extensions = "*"
+
+[build-system]
+requires = ["poetry-core>=1.9.0"]
+build-backend = "poetry.core.masonry.api"
