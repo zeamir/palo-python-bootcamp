@@ -24,9 +24,6 @@ pydantic-settings = "*"
 infra-logging-cyberark = ">=3"
 cachetools = "*"
 tenacity = "*"
-pcloud-shared-infra-common-cyberark = "4.*"
-tenant-management-integrations-cyberark = "9.*"
-infra-tenant-isolation-cyberark = "8.*"
 typing-extensions = "*"
 
 [build-system]

@@ -7,9 +7,7 @@ repository = "https://github.cyberng.com/azahavi/python-bootcamp"
 package-mode = false
 
 [tool.poetry.group.dev.dependencies]
-#tools-configuration-cyberark = "7.*"
-# needed for running manuall tests that use everent-env-utils
-#infra-automation-utils-cyberark = ">=5"
+# tools-configuration-cyberark = "8.*"
 mockito = "*"
 pylint-pydantic = "*"
 
@@ -18,7 +16,7 @@ pylint-pydantic = "*"
 python = "^3.13"
 pydantic = "^2.0.0"
 pydantic-settings = "*"
-#infra-logging-cyberark = ">=3"
+# infra-logging-cyberark = ">=3"
 cachetools = "*"
 tenacity = "*"
 typing-extensions = "*"
