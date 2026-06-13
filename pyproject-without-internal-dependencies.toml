@@ -11,7 +11,6 @@ package-mode = false
 mockito = "*"
 pylint-pydantic = "*"
 
-
 [tool.poetry.dependencies]
 python = "^3.13"
 pydantic = "^2.0.0"
