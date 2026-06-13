@@ -3,6 +3,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from ticketing_system.exceptions import InvalidDiscountError, InvalidPriceError, InvalidTicketCountError, InvalidTicketRangeError
+
 
 class MoviePromotionNative:
     """
@@ -42,27 +44,23 @@ class MoviePromotionNative:
         """
         # Validate base_price
         if base_price <= 0:
-            raise ValueError(f'base_price must be > 0, got {base_price}')
+            raise InvalidPriceError(f'base_price must be > 0, got {base_price}')
 
         # Validate discount_percent
         if not 0 <= discount_percent <= 100:
-            raise ValueError(
-                f'discount_percent must be between 0 and 100, got {discount_percent}'
-            )
+            raise InvalidDiscountError(f'discount_percent must be between 0 and 100, got {discount_percent}')
 
         # Validate min_tickets
         if min_tickets <= 0:
-            raise ValueError(f'min_tickets must be > 0, got {min_tickets}')
+            raise InvalidTicketCountError(f'min_tickets must be > 0, got {min_tickets}')
 
         # Validate max_tickets
         if max_tickets <= 0:
-            raise ValueError(f'max_tickets must be > 0, got {max_tickets}')
+            raise InvalidTicketCountError(f'max_tickets must be > 0, got {max_tickets}')
 
         # Validate ticket range
         if max_tickets < min_tickets:
-            raise ValueError(
-                f'max_tickets ({max_tickets}) must be >= min_tickets ({min_tickets})'
-            )
+            raise InvalidTicketRangeError(f'max_tickets ({max_tickets}) must be >= min_tickets ({min_tickets})')
 
         # Assign values
         self.promo_code = promo_code.upper()
@@ -78,7 +76,7 @@ class MoviePromotionNative:
 
     def __repr__(self) -> str:
         """Return a developer-friendly representation."""
-        return (f'MoviePromotionNative('
+        return ('MoviePromotionNative('
                 f'promo_code={self.promo_code!r}, '
                 f'base_price={self.base_price}, '
                 f'discount_percent={self.discount_percent}, '
@@ -123,29 +121,23 @@ class MoviePromotionDataclass:
         """
         # Validate base_price
         if self.base_price <= 0:
-            raise ValueError(f'base_price must be > 0, got {self.base_price}')
+            raise InvalidPriceError(f'base_price must be > 0, got {self.base_price}')
 
         # Validate discount_percent
         if not 0 <= self.discount_percent <= 100:
-            raise ValueError(
-                f'discount_percent must be between 0 and 100, got {self.discount_percent}'
-            )
+            raise InvalidDiscountError(f'discount_percent must be between 0 and 100, got {self.discount_percent}')
 
         # Validate min_tickets
         if self.min_tickets <= 0:
-            raise ValueError(
-                f'min_tickets must be > 0, got {self.min_tickets}')
+            raise InvalidTicketCountError(f'min_tickets must be > 0, got {self.min_tickets}')
 
         # Validate max_tickets
         if self.max_tickets <= 0:
-            raise ValueError(
-                f'max_tickets must be > 0, got {self.max_tickets}')
+            raise InvalidTicketCountError(f'max_tickets must be > 0, got {self.max_tickets}')
 
         # Validate ticket range
         if self.max_tickets < self.min_tickets:
-            raise ValueError(
-                f'max_tickets ({self.max_tickets}) must be >= min_tickets ({self.min_tickets})'
-            )
+            raise InvalidTicketRangeError(f'max_tickets ({self.max_tickets}) must be >= min_tickets ({self.min_tickets})')
 
         # Normalize promo_code to uppercase
         self.promo_code = self.promo_code.upper()
@@ -210,7 +202,8 @@ class MoviePromotionDataclass:
 # - Use **native classes** when you need special behavior or zero dependencies
 # ==============================================================================
 
-if __name__ == '__main__':
+
+def main() -> None:
     print('=' * 70)
     print('NATIVE CLASS EXAMPLES')
     print('=' * 70)
@@ -311,12 +304,10 @@ if __name__ == '__main__':
     print('COMPARISON')
     print('=' * 70)
     print('\nBoth implementations produce the same validation behavior:')
-    print(
-        f'  Native:    {promo_native.promo_code} → ${promo_native.final_price:.2f}'
-    )
-    print(
-        f'  Dataclass: {promo_dataclass.promo_code} → ${promo_dataclass.final_price:.2f}'
-    )
-    print(
-        '\nSee the comparison comment block above for when to use each approach.'
-    )
+    print(f'  Native:    {promo_native.promo_code} → ${promo_native.final_price:.2f}')
+    print(f'  Dataclass: {promo_dataclass.promo_code} → ${promo_dataclass.final_price:.2f}')
+    print('\nSee the comparison comment block above for when to use each approach.')
+
+
+if __name__ == '__main__':
+    main()

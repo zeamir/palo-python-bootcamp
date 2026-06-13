@@ -1,7 +1,4 @@
-from __future__ import annotations
-
-from collections.abc import Generator
-
+# pyre-ignore-all-errors[58]
 """
 Comprehensions: Concise Syntax for Data Transformation
 =======================================================
@@ -16,15 +13,46 @@ Types covered:
   - Generator expressions: lazy evaluation for memory-efficient iteration
   - Nested comprehensions: multi-dimensional data structures
 """
+from __future__ import annotations
 
 # Sample movie data for demonstration
 MOVIES = [
-    {'title': 'Inception', 'genre': 'sci_fi', 'rating': 8.8, 'duration': 148},
-    {'title': 'The Dark Knight', 'genre': 'action', 'rating': 9.0, 'duration': 152},
-    {'title': 'Interstellar', 'genre': 'sci_fi', 'rating': 8.6, 'duration': 169},
-    {'title': 'The Notebook', 'genre': 'romance', 'rating': 7.9, 'duration': 123},
-    {'title': 'Get Out', 'genre': 'horror', 'rating': 7.7, 'duration': 104},
-    {'title': 'Parasite', 'genre': 'thriller', 'rating': 8.6, 'duration': 132},
+    {
+        'title': 'Inception',
+        'genre': 'sci_fi',
+        'rating': 8.8,
+        'duration': 148
+    },
+    {
+        'title': 'The Dark Knight',
+        'genre': 'action',
+        'rating': 9.0,
+        'duration': 152
+    },
+    {
+        'title': 'Interstellar',
+        'genre': 'sci_fi',
+        'rating': 8.6,
+        'duration': 169
+    },
+    {
+        'title': 'The Notebook',
+        'genre': 'romance',
+        'rating': 7.9,
+        'duration': 123
+    },
+    {
+        'title': 'Get Out',
+        'genre': 'horror',
+        'rating': 7.7,
+        'duration': 104
+    },
+    {
+        'title': 'Parasite',
+        'genre': 'thriller',
+        'rating': 8.6,
+        'duration': 132
+    },
 ]
 
 TICKET_PRICES = [12.50, 15.00, 18.50, 20.00, 22.00]
@@ -105,7 +133,7 @@ def demo_generator_expression() -> None:
 
     # Consume the generator to compute total revenue
     total_revenue = sum(prices_with_tax)
-    print(f'Total revenue (after {TAX_RATE*100}% tax): ${total_revenue:.2f}')
+    print(f'Total revenue (after {TAX_RATE * 100}% tax): ${total_revenue:.2f}')
 
     # Note: generator is now exhausted — can't iterate again
     print(f'Attempting to sum again: ${sum(prices_with_tax):.2f}')  # returns 0
@@ -135,9 +163,13 @@ def demo_nested_comprehension() -> None:
     print(f'Last 10 seats: {seat_map[-10:]}')
 
 
-if __name__ == '__main__':
+def main() -> None:
     demo_list_comprehension()
     demo_dict_comprehension()
     demo_set_comprehension()
     demo_generator_expression()
     demo_nested_comprehension()
+
+
+if __name__ == '__main__':
+    main()

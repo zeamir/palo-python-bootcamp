@@ -1,6 +1,8 @@
 # pyre-ignore-all-errors[6,13,15,56]
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
+from ticketing_system.exceptions import InvalidEmailError
+
 
 class Customer(BaseModel):
     """Represents a cinema customer."""
@@ -20,7 +22,7 @@ class Customer(BaseModel):
     def email_must_be_valid(cls, value: str) -> str:
         """Basic email format validation."""
         if '@' not in value or '.' not in value.split('@')[-1]:
-            raise ValueError(f'Invalid email address: {value}')
+            raise InvalidEmailError(f'Invalid email address: {value}')
         return value.lower()
 
     @model_validator(mode='before')
@@ -35,7 +37,7 @@ class Customer(BaseModel):
         return data
 
 
-if __name__ == '__main__':
+def main() -> None:
     customer = Customer(name='  Jane Doe  ', email='  JANE@example.com  ', age=30)
 
     print('--- model_dump() ---')
@@ -46,3 +48,7 @@ if __name__ == '__main__':
 
     print('\n--- model_dump(exclude={"age"}) ---')
     print(customer.model_dump(exclude={'age'}))
+
+
+if __name__ == '__main__':
+    main()

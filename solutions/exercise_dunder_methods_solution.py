@@ -1,15 +1,9 @@
 """
-Exercise: Dunder Methods (Magic Methods)
+Solution: Dunder Methods (Magic Methods)
 
-In this exercise, you'll implement a MovieCollection class that demonstrates
-common dunder methods used to make custom classes behave like built-in types.
-
-Dunder methods (double underscore, aka "magic methods") allow you to customize
-how your objects interact with Python's built-in operations and syntax.
-
-Reference: ticketing_system/services/database_service.py
+This solution demonstrates how to implement common dunder methods to make
+a custom class behave like a built-in Python collection.
 """
-# pyre-ignore-all-errors[6,13,15,56]
 from __future__ import annotations
 
 from collections.abc import Iterator
@@ -35,8 +29,7 @@ class MovieCollection:
 
     def __init__(self) -> None:
         """Initialize an empty movie collection."""
-        # TODO A: Store movies internally
-        # Hint: You'll need an internal container to store movie dicts
+        self._movies: list[dict] = []
 
     def add(self, movie: dict) -> None:
         """Add a movie to the collection.
@@ -44,40 +37,29 @@ class MovieCollection:
         Args:
             movie: A dictionary containing movie information (e.g., title, year).
         """
-        # TODO A (continued): Add the movie to the collection
-        # Hint: Append to your internal container
+        self._movies.append(movie)
 
     def __len__(self) -> int:
         """Return the number of movies in the collection.
 
-        Hint: Enables len(collection). How many movies are stored?
-
         Returns:
             The number of movies.
         """
-        # TODO B: Return the collection size
-        # Hint: How many items are in your container?
-        return 0
+        return len(self._movies)
 
     def __contains__(self, title: str) -> bool:
-        """Check if a movie with the given title is in the collection.
-
-        Hint: Enables 'Inception' in collection. Search by title.
+        """Check if a movie with the given title exists in the collection.
 
         Args:
             title: The movie title to search for.
 
         Returns:
-            True if a movie with that title exists, False otherwise.
+            True if the title exists, False otherwise.
         """
-        # TODO C: Check if a movie title exists
-        # Hint: Check if any stored movie has a matching 'title'
-        return False
+        return any(movie.get('title') == title for movie in self._movies)
 
     def __getitem__(self, index: int) -> dict:
-        """Get a movie by its position in the collection.
-
-        Hint: Enables collection[0] and collection[-1] syntax.
+        """Get a movie by its index in the collection.
 
         Args:
             index: The zero-based index of the movie.
@@ -88,46 +70,31 @@ class MovieCollection:
         Raises:
             IndexError: If the index is out of range.
         """
-        # TODO D: Support index access
-        # Hint: Delegate to your internal container's indexing
-        return {}
+        return self._movies[index]
 
     def __iter__(self) -> Iterator[dict]:
-        """Iterate over the movies in the collection.
-
-        Hint: Enables 'for movie in collection' syntax.
+        """Return an iterator over the movies in the collection.
 
         Returns:
             An iterator over movie dictionaries.
         """
-        # TODO E: Make the collection iterable
-        # Hint: Delegate to your internal container's iterator
-        return iter([])
+        return iter(self._movies)
 
     def __str__(self) -> str:
-        """Return a human-readable description of the collection.
-
-        Hint: Called by print(). Should be useful to an end user.
+        """Return a human-readable string representation.
 
         Returns:
-            A concise, user-friendly string.
+            A user-friendly string representation.
         """
-        # TODO F: User-friendly string
-        # Hint: Show the number of movies in a readable way
-        return 'MovieCollection(0 movies)'
+        return f'MovieCollection({len(self._movies)} movies)'
 
     def __repr__(self) -> str:
-        """Return a developer-friendly representation showing internal state.
-
-        Hint: Called by repr() and in the REPL. Should show enough detail
-        for a developer to understand the object's current state.
+        """Return a developer-friendly string representation.
 
         Returns:
-            A detailed string representation.
+            A detailed string representation for debugging.
         """
-        # TODO G: Developer-friendly string
-        # Hint: Show the actual contents of your internal container
-        return 'MovieCollection([])'
+        return f'MovieCollection({repr(self._movies)})'
 
 
 # ============================================================================

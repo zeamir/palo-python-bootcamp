@@ -1,16 +1,5 @@
 # pyre-ignore-all-errors[6,13,15,56]
-"""
-Exercise 2: Validators & Computed Fields
-=========================================
-
-Goal: Add validators and a computed field to a MoviePromotion model.
-
-Instructions:
-    1. Add the four validators/fields marked below so that the test cases at the bottom pass.
-    2. Run the file to test your model: poetry run python exercises/exercise_validators.py
-
-See exercise_validators_solution.py if you get stuck.
-"""
+"""Exercise 2 Solution: Validators & Computed Fields"""
 from __future__ import annotations
 
 from pydantic import BaseModel, Field, computed_field, field_validator, model_validator
@@ -26,41 +15,36 @@ class MoviePromotion(BaseModel):
     @field_validator('discount_percent')
     @classmethod
     def validate_discount(cls, value: float) -> float:
-        # TODO A: Reject invalid percentages
-        # Hint: What's a valid percentage range?
+        if not 0 <= value <= 100:
+            raise ValueError(f'Discount must be between 0 and 100, got {value}')
         return value
 
     @model_validator(mode='before')
     @classmethod
     def normalize_promo_code(cls, data: dict) -> dict:
-        # TODO B: Normalize the promo code
-        # Hint: Normalize so 'summer20' and 'SUMMER20' are treated the same
+        if 'promo_code' in data and isinstance(data['promo_code'], str):
+            data['promo_code'] = data['promo_code'].upper()
         return data
 
     @computed_field
     @property
     def final_price(self) -> float:
-        # TODO C: Calculate the discounted price
-        # Hint: Calculate what the customer actually pays after the discount
-        return 0.0
+        return self.base_price * (1 - self.discount_percent / 100)
 
     @model_validator(mode='after')
     def validate_ticket_range(self) -> MoviePromotion:
-        # TODO D: Ensure valid ticket range
-        # Hint: The upper bound of a range can't be below the lower bound
+        if self.max_tickets < self.min_tickets:
+            raise ValueError(f'max_tickets ({self.max_tickets}) must be >= min_tickets ({self.min_tickets})')
         return self
 
 
 def main() -> None:
     promo = MoviePromotion(promo_code='summer20', base_price=15.0, discount_percent=20, min_tickets=2, max_tickets=6)
     print('Promo:', promo.model_dump())
-    print(f'Expected promo_code: SUMMER20, got: {promo.promo_code}')
-    print(f'Expected final_price: 12.0, got: {promo.final_price}')
+    print(f'promo_code: {promo.promo_code}')  # SUMMER20
+    print(f'final_price: {promo.final_price}')  # 12.0
     print(f'Ticket range: {promo.min_tickets}-{promo.max_tickets}')
-
-    # Uncomment to test validation errors:
-    # MoviePromotion(promo_code='X', base_price=15.0, discount_percent=150, min_tickets=1, max_tickets=4)  # invalid discount
-    # MoviePromotion(promo_code='X', base_price=15.0, discount_percent=10, min_tickets=5, max_tickets=2)   # invalid range
+    print('JSON:', promo.model_dump_json(indent=2))
 
 
 if __name__ == '__main__':

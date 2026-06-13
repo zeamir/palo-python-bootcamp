@@ -1,13 +1,9 @@
-# pyre-ignore-all-errors[6,13,15,56]
-# pylint: disable=unused-argument
 """
-Exercise: Context Managers
+Solution: Context Managers
 
-In this exercise, you'll implement two types of context managers commonly used
-in production code: a class-based context manager for resource locking and
-a function-based context manager for timing operations.
-
-Reference: ticketing_system/context_managers.py
+This solution demonstrates:
+1. Class-based context manager with __enter__ and __exit__
+2. Function-based context manager using @contextmanager decorator
 """
 from __future__ import annotations
 
@@ -21,16 +17,7 @@ from typing import Generator
 
 
 class SeatLockContext:
-    """Context manager that acquires and releases a seat lock.
-
-    Simulates locking a seat during a booking operation. The lock should be
-    released properly even if an error occurs.
-
-    Usage:
-        with SeatLockContext('A5') as lock:
-            # perform booking for seat A5
-            ...
-    """
+    """Context manager that acquires and releases a seat lock."""
 
     def __init__(self, seat_id: str) -> None:
         """Initialize the lock context for a specific seat.
@@ -44,14 +31,11 @@ class SeatLockContext:
     def __enter__(self) -> SeatLockContext:
         """Acquire the seat lock when entering the context.
 
-        Hint: Signal that the seat is now reserved and make the lock
-        usable via the 'as' clause.
-
         Returns:
-            self — the active lock context.
+            Self, so the context manager can be used with 'as'.
         """
-        # TODO A: Acquire the seat lock
-        # Hint: Mark the seat as locked and announce it
+        print(f'[LOCK] Locking seat {self.seat_id}')
+        self.locked = True
         return self
 
     def __exit__(
@@ -62,15 +46,20 @@ class SeatLockContext:
     ) -> bool:
         """Release the seat lock when exiting the context.
 
-        Hint: The seat must always be freed — whether the block
-        succeeded or raised an exception. Distinguish the two cases
-        in your output.
+        Args:
+            exc_type: Exception type if an error occurred, None otherwise.
+            exc_val: Exception instance if an error occurred, None otherwise.
+            exc_tb: Exception traceback.
 
         Returns:
-            False — let any exception propagate to the caller.
+            False to re-raise any exception that occurred.
         """
-        # TODO A (continued): Release the seat lock
-        # Hint: Clean up regardless of success or failure
+        if exc_type is None:
+            print(f'[LOCK] Released seat {self.seat_id}')
+        else:
+            print(f'[LOCK] Releasing seat {self.seat_id} after error: {exc_val}')
+
+        self.locked = False
         return False
 
 
@@ -83,16 +72,18 @@ class SeatLockContext:
 def timed_operation(name: str) -> Generator[None, None, None]:
     """Context manager that measures and reports the duration of an operation.
 
-    Hint: Measure how long the block takes and report it after the block ends.
-
     Args:
         name: A descriptive name for the operation being timed.
 
     Yields:
-        None.
+        None (the context manager doesn't provide a value to 'as').
     """
-    # TODO B: Measure and report the operation's duration
-    yield
+    start_time = time.time()
+    try:
+        yield
+    finally:
+        elapsed = time.time() - start_time
+        print(f'[TIMER] {name} completed in {elapsed:.3f}s')
 
 
 # ============================================================================

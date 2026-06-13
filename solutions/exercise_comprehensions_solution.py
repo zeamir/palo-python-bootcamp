@@ -1,25 +1,10 @@
-"""
-Exercise 3: Comprehensions
-===========================
-
-Goal: Practice using Python comprehensions to transform data efficiently.
-
-Instructions:
-    1. Complete the five functions where marked TODO.
-    2. Run the file to test your solutions: poetry run python exercises/exercise_comprehensions.py
-
-Each function demonstrates a different type of comprehension:
-    A) List comprehension with filtering
-    B) Dict comprehension for key-value mapping
-    C) Set comprehension for unique values
-    D) Generator expression for memory-efficient iteration
-    E) Nested comprehension for multi-dimensional data
-
-See exercise_comprehensions_solution.py if you get stuck.
-"""
 # pyre-ignore-all-errors[6,13,15,56]
-# pylint: disable=unnecessary-pass,unused-argument,no-self-use,unnecessary-ellipsis
+"""
+Exercise 3: Comprehensions - SOLUTION
+======================================
 
+Complete solutions for the comprehensions exercise.
+"""
 from __future__ import annotations
 
 from collections.abc import Generator
@@ -69,24 +54,18 @@ def get_highly_rated_titles(movies: list[dict]) -> list[str]:
     """
     Return a list of movie titles with rating > 8.0.
 
-    Hint: You only need the titles, not the full movie dicts.
-    Hint: Use a condition to filter movies by rating.
-
     Args:
         movies: List of movie dictionaries with 'title' and 'rating' keys.
 
     Returns:
         List of movie titles with rating > 8.0.
     """
-    # TODO A: Return titles of movies rated above 8.0
-    return []
+    return [movie['title'] for movie in movies if movie['rating'] > 8.0]
 
 
 def build_title_to_rating_map(movies: list[dict]) -> dict[str, float]:
     """
     Build a dictionary mapping movie title to its rating.
-
-    Hint: Think about what should be the key and what should be the value.
 
     Args:
         movies: List of movie dictionaries with 'title' and 'rating' keys.
@@ -94,15 +73,12 @@ def build_title_to_rating_map(movies: list[dict]) -> dict[str, float]:
     Returns:
         Dictionary mapping title (str) to rating (float).
     """
-    # TODO B: Map each title to its rating
-    return {}
+    return {movie['title']: movie['rating'] for movie in movies}
 
 
 def extract_unique_genres(movies: list[dict]) -> set[str]:
     """
     Extract a set of unique genres from the movie list.
-
-    Hint: A set automatically removes duplicates for you.
 
     Args:
         movies: List of movie dictionaries with 'genre' key.
@@ -110,16 +86,12 @@ def extract_unique_genres(movies: list[dict]) -> set[str]:
     Returns:
         Set of unique genre strings.
     """
-    # TODO C: Collect unique genres
-    return set()
+    return {movie['genre'] for movie in movies}
 
 
 def apply_tax_to_prices(prices: list[float], tax_rate: float = 0.05) -> Generator[float, None, None]:
     """
     Return a generator that yields each ticket price with tax applied.
-
-    Hint: Don't create a list — use a generator expression for memory efficiency.
-    Hint: Formula is: price * (1 + tax_rate).
 
     Args:
         prices: List of ticket prices.
@@ -128,8 +100,7 @@ def apply_tax_to_prices(prices: list[float], tax_rate: float = 0.05) -> Generato
     Returns:
         Generator yielding prices with tax applied.
     """
-    # TODO D: Yield each price with tax applied
-    return (p for p in [])  # Replace this placeholder
+    return (price * (1 + tax_rate) for price in prices)
 
 
 def generate_seat_labels(rows: list[str], seats_per_row: int) -> list[str]:
@@ -138,9 +109,6 @@ def generate_seat_labels(rows: list[str], seats_per_row: int) -> list[str]:
 
     Example: rows=['A', 'B'], seats_per_row=3 → ['A1', 'A2', 'A3', 'B1', 'B2', 'B3']
 
-    Hint: You need to combine each row with each seat number (1 to seats_per_row).
-    Hint: The outer loop is the rows, the inner loop is the seat numbers.
-
     Args:
         rows: List of row labels (e.g., ['A', 'B', 'C']).
         seats_per_row: Number of seats per row.
@@ -148,46 +116,70 @@ def generate_seat_labels(rows: list[str], seats_per_row: int) -> list[str]:
     Returns:
         Flat list of seat labels (e.g., ['A1', 'A2', ...]).
     """
-    # TODO E: Generate all seat labels
-    return []
+    return [f'{row}{seat}' for row in rows for seat in range(1, seats_per_row + 1)]
 
 
-def main() -> None:
-    print('=== Testing Comprehensions ===\n')
-
-    # Test A: List comprehension
+def _test_list_comprehension() -> None:
     print('A) Highly rated titles (>8.0):')
     titles = get_highly_rated_titles(MOVIES)
     print(f'   {titles}')
-    print('   Expected: 4 titles\n')
+    assert len(titles) == 4
+    assert 'Inception' in titles
+    assert 'The Notebook' not in titles
+    print('   ✓ Pass\n')
 
-    # Test B: Dict comprehension
+
+def _test_dict_comprehension() -> None:
     print('B) Title → Rating mapping:')
     rating_map = build_title_to_rating_map(MOVIES)
     print(f'   {rating_map}')
-    print('   Expected: 6 entries\n')
+    assert len(rating_map) == 6
+    assert rating_map['The Dark Knight'] == 9.0
+    print('   ✓ Pass\n')
 
-    # Test C: Set comprehension
+
+def _test_set_comprehension() -> None:
     print('C) Unique genres:')
     genres = extract_unique_genres(MOVIES)
     print(f'   {sorted(genres)}')
-    print('   Expected: 5 unique genres\n')
+    assert len(genres) == 5  # 5 unique genres (sci_fi appears twice but counted once)
+    assert 'sci_fi' in genres
+    print('   ✓ Pass\n')
 
-    # Test D: Generator expression
+
+def _test_generator_expression() -> None:
     print('D) Ticket prices with 5% tax:')
     prices = [12.50, 15.00, 18.50]
     taxed_prices = apply_tax_to_prices(prices)
     print(f'   Type: {type(taxed_prices)}')
     taxed_list = list(taxed_prices)
     print(f'   {taxed_list}')
-    print('   Expected: [13.125, 15.75, 19.425]\n')
+    assert abs(taxed_list[0] - 13.125) < 0.01
+    assert abs(taxed_list[1] - 15.75) < 0.01
+    print('   ✓ Pass\n')
 
-    # Test E: Nested comprehension
+
+def _test_nested_comprehension() -> None:
     print('E) Seat labels (rows A-C, 5 seats per row):')
     rows = ['A', 'B', 'C']
     seats = generate_seat_labels(rows, 5)
     print(f'   {seats}')
-    print('   Expected: 15 labels total\n')
+    assert len(seats) == 15
+    assert seats[0] == 'A1'
+    assert seats[4] == 'A5'
+    assert seats[5] == 'B1'
+    assert seats[-1] == 'C5'
+    print('   ✓ Pass\n')
+
+
+def main() -> None:
+    print('=== Testing Comprehensions (SOLUTION) ===\n')
+    _test_list_comprehension()
+    _test_dict_comprehension()
+    _test_set_comprehension()
+    _test_generator_expression()
+    _test_nested_comprehension()
+    print('All tests passed! ✓')
 
 
 if __name__ == '__main__':

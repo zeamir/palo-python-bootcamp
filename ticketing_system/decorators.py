@@ -30,6 +30,10 @@ def call_external_payment_api(customer_name: str, amount: float) -> dict:
     return {'status': 'ok', 'customer': customer_name, 'amount': amount}
 
 
-if __name__ == '__main__':
+def main() -> None:
     result = call_external_payment_api('Jane', 9.99)
     print(f'API result: {result}')
+
+
+if __name__ == '__main__':
+    main()
