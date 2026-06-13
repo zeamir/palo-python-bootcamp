@@ -1,4 +1,3 @@
-# pyre-ignore-all-errors[6,13,15,56]
 """
 Exercise 3: Serialization
 ==========================
@@ -17,6 +16,8 @@ Tasks:
 
 See exercise_serialization_solution.py if you get stuck.
 """
+# pyre-ignore-all-errors[6,13,15,56]
+# pylint: disable=unused-variable
 
 from datetime import datetime
 
@@ -40,7 +41,7 @@ class BookingReceipt(BaseModel):
     model_config = {'populate_by_name': True}
 
 
-if __name__ == '__main__':
+def main() -> None:
     receipt = BookingReceipt(
         receipt_id='R-001',
         buyer='Jane Doe',
@@ -48,10 +49,14 @@ if __name__ == '__main__':
         total_price=30.0,
     )
 
-    # A) Convert the receipt to a plain Python dict and print it
+    # TODO A: Convert the receipt to a plain Python dict and print it
 
-    # B) Serialize the receipt but exclude the timestamp field
+    # TODO B: Serialize the receipt but exclude the purchase_date field
 
-    # C) Produce a pretty-printed JSON string of the receipt
+    # TODO C: Produce a pretty-printed JSON string of the receipt
 
-    # D) Serialize using the aliases defined on the model fields
+    # TODO D: Serialize using the aliases defined on the model fields (buyer, film)
+
+
+if __name__ == '__main__':
+    main()

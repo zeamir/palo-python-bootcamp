@@ -1,4 +1,3 @@
-# pyre-ignore-all-errors[6,13,15,56]
 """
 Exercise 3: Comprehensions
 ===========================
@@ -18,18 +17,51 @@ Each function demonstrates a different type of comprehension:
 
 See exercise_comprehensions_solution.py if you get stuck.
 """
+# pyre-ignore-all-errors[6,13,15,56]
+# pylint: disable=unnecessary-pass,unused-argument,no-self-use,unnecessary-ellipsis
+
 from __future__ import annotations
 
 from collections.abc import Generator
 
 # Sample movie data for testing
 MOVIES = [
-    {'title': 'Inception', 'genre': 'sci_fi', 'rating': 8.8, 'duration': 148},
-    {'title': 'The Dark Knight', 'genre': 'action', 'rating': 9.0, 'duration': 152},
-    {'title': 'Interstellar', 'genre': 'sci_fi', 'rating': 8.6, 'duration': 169},
-    {'title': 'The Notebook', 'genre': 'romance', 'rating': 7.9, 'duration': 123},
-    {'title': 'Get Out', 'genre': 'horror', 'rating': 7.7, 'duration': 104},
-    {'title': 'Parasite', 'genre': 'thriller', 'rating': 8.6, 'duration': 132},
+    {
+        'title': 'Inception',
+        'genre': 'sci_fi',
+        'rating': 8.8,
+        'duration': 148
+    },
+    {
+        'title': 'The Dark Knight',
+        'genre': 'action',
+        'rating': 9.0,
+        'duration': 152
+    },
+    {
+        'title': 'Interstellar',
+        'genre': 'sci_fi',
+        'rating': 8.6,
+        'duration': 169
+    },
+    {
+        'title': 'The Notebook',
+        'genre': 'romance',
+        'rating': 7.9,
+        'duration': 123
+    },
+    {
+        'title': 'Get Out',
+        'genre': 'horror',
+        'rating': 7.7,
+        'duration': 104
+    },
+    {
+        'title': 'Parasite',
+        'genre': 'thriller',
+        'rating': 8.6,
+        'duration': 132
+    },
 ]
 
 
@@ -46,7 +78,7 @@ def get_highly_rated_titles(movies: list[dict]) -> list[str]:
     Returns:
         List of movie titles with rating > 8.0.
     """
-    # TODO A: Use a list comprehension to filter and extract titles
+    # TODO A: Return titles of movies rated above 8.0
     return []
 
 
@@ -62,7 +94,7 @@ def build_title_to_rating_map(movies: list[dict]) -> dict[str, float]:
     Returns:
         Dictionary mapping title (str) to rating (float).
     """
-    # TODO B: Use a dict comprehension to create the mapping
+    # TODO B: Map each title to its rating
     return {}
 
 
@@ -78,7 +110,7 @@ def extract_unique_genres(movies: list[dict]) -> set[str]:
     Returns:
         Set of unique genre strings.
     """
-    # TODO C: Use a set comprehension to extract genres
+    # TODO C: Collect unique genres
     return set()
 
 
@@ -96,7 +128,7 @@ def apply_tax_to_prices(prices: list[float], tax_rate: float = 0.05) -> Generato
     Returns:
         Generator yielding prices with tax applied.
     """
-    # TODO D: Use a generator expression (parentheses, not brackets)
+    # TODO D: Yield each price with tax applied
     return (p for p in [])  # Replace this placeholder
 
 
@@ -116,30 +148,30 @@ def generate_seat_labels(rows: list[str], seats_per_row: int) -> list[str]:
     Returns:
         Flat list of seat labels (e.g., ['A1', 'A2', ...]).
     """
-    # TODO E: Use a nested comprehension
+    # TODO E: Generate all seat labels
     return []
 
 
-if __name__ == '__main__':
+def main() -> None:
     print('=== Testing Comprehensions ===\n')
 
     # Test A: List comprehension
     print('A) Highly rated titles (>8.0):')
     titles = get_highly_rated_titles(MOVIES)
     print(f'   {titles}')
-    print(f'   Expected: 4 titles\n')
+    print('   Expected: 4 titles\n')
 
     # Test B: Dict comprehension
     print('B) Title → Rating mapping:')
     rating_map = build_title_to_rating_map(MOVIES)
     print(f'   {rating_map}')
-    print(f'   Expected: 6 entries\n')
+    print('   Expected: 6 entries\n')
 
     # Test C: Set comprehension
     print('C) Unique genres:')
     genres = extract_unique_genres(MOVIES)
     print(f'   {sorted(genres)}')
-    print(f'   Expected: 5 unique genres\n')
+    print('   Expected: 5 unique genres\n')
 
     # Test D: Generator expression
     print('D) Ticket prices with 5% tax:')
@@ -148,11 +180,15 @@ if __name__ == '__main__':
     print(f'   Type: {type(taxed_prices)}')
     taxed_list = list(taxed_prices)
     print(f'   {taxed_list}')
-    print(f'   Expected: [13.125, 15.75, 19.425]\n')
+    print('   Expected: [13.125, 15.75, 19.425]\n')
 
     # Test E: Nested comprehension
     print('E) Seat labels (rows A-C, 5 seats per row):')
     rows = ['A', 'B', 'C']
     seats = generate_seat_labels(rows, 5)
     print(f'   {seats}')
-    print(f'   Expected: 15 labels total\n')
+    print('   Expected: 15 labels total\n')
+
+
+if __name__ == '__main__':
+    main()

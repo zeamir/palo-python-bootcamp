@@ -1,10 +1,5 @@
-from __future__ import annotations
-
 # pyre-ignore-all-errors[6,13,15,56]
-
-from contextlib import contextmanager
-from typing import Generator
-
+# pylint: disable=unused-argument
 """
 Exercise: Context Managers
 
@@ -14,11 +9,16 @@ a function-based context manager for timing operations.
 
 Reference: ticketing_system/context_managers.py
 """
+from __future__ import annotations
 
+import time
+from contextlib import contextmanager
+from typing import Generator
 
 # ============================================================================
 # Task A: Class-based Context Manager
 # ============================================================================
+
 
 class SeatLockContext:
     """Context manager that acquires and releases a seat lock.
@@ -50,6 +50,7 @@ class SeatLockContext:
         Returns:
             self — the active lock context.
         """
+        # TODO A: Acquire the seat lock
         # Hint: Mark the seat as locked and announce it
         return self
 
@@ -68,6 +69,7 @@ class SeatLockContext:
         Returns:
             False — let any exception propagate to the caller.
         """
+        # TODO A (continued): Release the seat lock
         # Hint: Clean up regardless of success or failure
         return False
 
@@ -75,6 +77,7 @@ class SeatLockContext:
 # ============================================================================
 # Task B: Function-based Context Manager
 # ============================================================================
+
 
 @contextmanager
 def timed_operation(name: str) -> Generator[None, None, None]:
@@ -88,13 +91,14 @@ def timed_operation(name: str) -> Generator[None, None, None]:
     Yields:
         None.
     """
-    # TODO: Implement this
+    # TODO B: Measure and report the operation's duration
     yield
 
 
 # ============================================================================
 # Demo / Test Code
 # ============================================================================
+
 
 def main() -> None:
     """Demonstrate the context managers."""
@@ -117,7 +121,6 @@ def main() -> None:
     with timed_operation('database_query'):
         print('  Running query...')
         # Simulate some work
-        import time
         time.sleep(0.1)
     print()
 
@@ -126,7 +129,6 @@ def main() -> None:
         print('  Step 1: validate request')
         with timed_operation('payment_processing'):
             print('    Processing payment...')
-            import time
             time.sleep(0.05)
         print('  Step 2: save ticket')
 

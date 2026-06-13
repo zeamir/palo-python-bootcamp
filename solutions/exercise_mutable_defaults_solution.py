@@ -7,6 +7,7 @@ This file contains the complete fixed versions of all three functions.
 """
 from __future__ import annotations
 
+import time
 from datetime import datetime
 
 
@@ -63,7 +64,7 @@ def stamp_ticket(movie: str, created_at: datetime | None = None) -> dict[str, st
     return {'movie': movie, 'created_at': created_at}
 
 
-if __name__ == '__main__':
+def main() -> None:
     print('=== Testing add_to_favorites ===')
     fav1 = add_to_favorites('Inception')
     fav2 = add_to_favorites('Interstellar')
@@ -84,7 +85,6 @@ if __name__ == '__main__':
 
     print('\n=== Testing stamp_ticket ===')
     ticket1 = stamp_ticket('Inception')
-    import time
     time.sleep(0.01)
     ticket2 = stamp_ticket('Interstellar')
     print(f'First ticket: {ticket1}')
@@ -93,3 +93,7 @@ if __name__ == '__main__':
     print('✓ Each call captures its own timestamp')
 
     print('\n=== All tests passed! ===')
+
+
+if __name__ == '__main__':
+    main()

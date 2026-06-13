@@ -23,7 +23,7 @@ class BookingReceipt(BaseModel):
     model_config = {'populate_by_name': True}
 
 
-if __name__ == '__main__':
+def main() -> None:
     receipt = BookingReceipt(
         receipt_id='R-001',
         buyer='Jane Doe',
@@ -42,3 +42,7 @@ if __name__ == '__main__':
 
     print('\n=== D: model_dump(by_alias=True) ===')
     print(receipt.model_dump(by_alias=True))
+
+
+if __name__ == '__main__':
+    main()

@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-# pyre-ignore-all-errors[6,13,15,56]
-
-from collections.abc import Iterator
-
 """
 Exercise: Dunder Methods (Magic Methods)
 
@@ -15,6 +9,10 @@ how your objects interact with Python's built-in operations and syntax.
 
 Reference: ticketing_system/services/database_service.py
 """
+# pyre-ignore-all-errors[6,13,15,56]
+from __future__ import annotations
+
+from collections.abc import Iterator
 
 
 class MovieCollection:
@@ -37,8 +35,8 @@ class MovieCollection:
 
     def __init__(self) -> None:
         """Initialize an empty movie collection."""
+        # TODO A: Store movies internally
         # Hint: You'll need an internal container to store movie dicts
-        pass
 
     def add(self, movie: dict) -> None:
         """Add a movie to the collection.
@@ -46,8 +44,8 @@ class MovieCollection:
         Args:
             movie: A dictionary containing movie information (e.g., title, year).
         """
+        # TODO A (continued): Add the movie to the collection
         # Hint: Append to your internal container
-        pass
 
     def __len__(self) -> int:
         """Return the number of movies in the collection.
@@ -57,6 +55,7 @@ class MovieCollection:
         Returns:
             The number of movies.
         """
+        # TODO B: Return the collection size
         # Hint: How many items are in your container?
         return 0
 
@@ -71,6 +70,7 @@ class MovieCollection:
         Returns:
             True if a movie with that title exists, False otherwise.
         """
+        # TODO C: Check if a movie title exists
         # Hint: Check if any stored movie has a matching 'title'
         return False
 
@@ -88,6 +88,7 @@ class MovieCollection:
         Raises:
             IndexError: If the index is out of range.
         """
+        # TODO D: Support index access
         # Hint: Delegate to your internal container's indexing
         return {}
 
@@ -99,6 +100,7 @@ class MovieCollection:
         Returns:
             An iterator over movie dictionaries.
         """
+        # TODO E: Make the collection iterable
         # Hint: Delegate to your internal container's iterator
         return iter([])
 
@@ -110,6 +112,7 @@ class MovieCollection:
         Returns:
             A concise, user-friendly string.
         """
+        # TODO F: User-friendly string
         # Hint: Show the number of movies in a readable way
         return 'MovieCollection(0 movies)'
 
@@ -122,6 +125,7 @@ class MovieCollection:
         Returns:
             A detailed string representation.
         """
+        # TODO G: Developer-friendly string
         # Hint: Show the actual contents of your internal container
         return 'MovieCollection([])'
 
@@ -129,6 +133,7 @@ class MovieCollection:
 # ============================================================================
 # Demo / Test Code
 # ============================================================================
+
 
 def main() -> None:
     """Demonstrate the dunder methods."""
@@ -162,7 +167,7 @@ def main() -> None:
     print()
 
     print('=== Testing __repr__ ===')
-    print(f'repr(collection):')
+    print('repr(collection):')
     print(f'{repr(collection)}\n')
 
     print('=== Testing error case ===')

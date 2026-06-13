@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import time
-from contextlib import contextmanager
-from typing import Generator
-
 """
 Solution: Context Managers
 
@@ -11,11 +5,16 @@ This solution demonstrates:
 1. Class-based context manager with __enter__ and __exit__
 2. Function-based context manager using @contextmanager decorator
 """
+from __future__ import annotations
 
+import time
+from contextlib import contextmanager
+from typing import Generator
 
 # ============================================================================
 # Task A: Class-based Context Manager
 # ============================================================================
+
 
 class SeatLockContext:
     """Context manager that acquires and releases a seat lock."""
@@ -68,6 +67,7 @@ class SeatLockContext:
 # Task B: Function-based Context Manager
 # ============================================================================
 
+
 @contextmanager
 def timed_operation(name: str) -> Generator[None, None, None]:
     """Context manager that measures and reports the duration of an operation.
@@ -89,6 +89,7 @@ def timed_operation(name: str) -> Generator[None, None, None]:
 # ============================================================================
 # Demo / Test Code
 # ============================================================================
+
 
 def main() -> None:
     """Demonstrate the context managers."""

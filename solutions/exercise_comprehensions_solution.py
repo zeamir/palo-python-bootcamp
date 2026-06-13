@@ -11,12 +11,42 @@ from collections.abc import Generator
 
 # Sample movie data for testing
 MOVIES = [
-    {'title': 'Inception', 'genre': 'sci_fi', 'rating': 8.8, 'duration': 148},
-    {'title': 'The Dark Knight', 'genre': 'action', 'rating': 9.0, 'duration': 152},
-    {'title': 'Interstellar', 'genre': 'sci_fi', 'rating': 8.6, 'duration': 169},
-    {'title': 'The Notebook', 'genre': 'romance', 'rating': 7.9, 'duration': 123},
-    {'title': 'Get Out', 'genre': 'horror', 'rating': 7.7, 'duration': 104},
-    {'title': 'Parasite', 'genre': 'thriller', 'rating': 8.6, 'duration': 132},
+    {
+        'title': 'Inception',
+        'genre': 'sci_fi',
+        'rating': 8.8,
+        'duration': 148
+    },
+    {
+        'title': 'The Dark Knight',
+        'genre': 'action',
+        'rating': 9.0,
+        'duration': 152
+    },
+    {
+        'title': 'Interstellar',
+        'genre': 'sci_fi',
+        'rating': 8.6,
+        'duration': 169
+    },
+    {
+        'title': 'The Notebook',
+        'genre': 'romance',
+        'rating': 7.9,
+        'duration': 123
+    },
+    {
+        'title': 'Get Out',
+        'genre': 'horror',
+        'rating': 7.7,
+        'duration': 104
+    },
+    {
+        'title': 'Parasite',
+        'genre': 'thriller',
+        'rating': 8.6,
+        'duration': 132
+    },
 ]
 
 
@@ -89,10 +119,7 @@ def generate_seat_labels(rows: list[str], seats_per_row: int) -> list[str]:
     return [f'{row}{seat}' for row in rows for seat in range(1, seats_per_row + 1)]
 
 
-if __name__ == '__main__':
-    print('=== Testing Comprehensions (SOLUTION) ===\n')
-
-    # Test A: List comprehension
+def _test_list_comprehension() -> None:
     print('A) Highly rated titles (>8.0):')
     titles = get_highly_rated_titles(MOVIES)
     print(f'   {titles}')
@@ -101,7 +128,8 @@ if __name__ == '__main__':
     assert 'The Notebook' not in titles
     print('   ✓ Pass\n')
 
-    # Test B: Dict comprehension
+
+def _test_dict_comprehension() -> None:
     print('B) Title → Rating mapping:')
     rating_map = build_title_to_rating_map(MOVIES)
     print(f'   {rating_map}')
@@ -109,7 +137,8 @@ if __name__ == '__main__':
     assert rating_map['The Dark Knight'] == 9.0
     print('   ✓ Pass\n')
 
-    # Test C: Set comprehension
+
+def _test_set_comprehension() -> None:
     print('C) Unique genres:')
     genres = extract_unique_genres(MOVIES)
     print(f'   {sorted(genres)}')
@@ -117,7 +146,8 @@ if __name__ == '__main__':
     assert 'sci_fi' in genres
     print('   ✓ Pass\n')
 
-    # Test D: Generator expression
+
+def _test_generator_expression() -> None:
     print('D) Ticket prices with 5% tax:')
     prices = [12.50, 15.00, 18.50]
     taxed_prices = apply_tax_to_prices(prices)
@@ -128,7 +158,8 @@ if __name__ == '__main__':
     assert abs(taxed_list[1] - 15.75) < 0.01
     print('   ✓ Pass\n')
 
-    # Test E: Nested comprehension
+
+def _test_nested_comprehension() -> None:
     print('E) Seat labels (rows A-C, 5 seats per row):')
     rows = ['A', 'B', 'C']
     seats = generate_seat_labels(rows, 5)
@@ -140,4 +171,16 @@ if __name__ == '__main__':
     assert seats[-1] == 'C5'
     print('   ✓ Pass\n')
 
+
+def main() -> None:
+    print('=== Testing Comprehensions (SOLUTION) ===\n')
+    _test_list_comprehension()
+    _test_dict_comprehension()
+    _test_set_comprehension()
+    _test_generator_expression()
+    _test_nested_comprehension()
     print('All tests passed! ✓')
+
+
+if __name__ == '__main__':
+    main()

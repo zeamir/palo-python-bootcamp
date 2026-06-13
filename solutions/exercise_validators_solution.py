@@ -34,16 +34,18 @@ class MoviePromotion(BaseModel):
     @model_validator(mode='after')
     def validate_ticket_range(self) -> MoviePromotion:
         if self.max_tickets < self.min_tickets:
-            raise ValueError(
-                f'max_tickets ({self.max_tickets}) must be >= min_tickets ({self.min_tickets})'
-            )
+            raise ValueError(f'max_tickets ({self.max_tickets}) must be >= min_tickets ({self.min_tickets})')
         return self
 
 
-if __name__ == '__main__':
+def main() -> None:
     promo = MoviePromotion(promo_code='summer20', base_price=15.0, discount_percent=20, min_tickets=2, max_tickets=6)
     print('Promo:', promo.model_dump())
     print(f'promo_code: {promo.promo_code}')  # SUMMER20
     print(f'final_price: {promo.final_price}')  # 12.0
     print(f'Ticket range: {promo.min_tickets}-{promo.max_tickets}')
     print('JSON:', promo.model_dump_json(indent=2))
+
+
+if __name__ == '__main__':
+    main()
