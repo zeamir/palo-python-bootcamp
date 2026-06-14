@@ -1,8 +1,8 @@
-from ticketing_system.models.movie import Movie
+from ticketing_system.models.movie import Genre, Movie
 from ticketing_system.models.ticket import Ticket
 
 
-class DatabaseService:
+class _DatabaseService:
     """In-memory database for movies and tickets.
 
     Demonstrates dunder methods: __init__, __str__, __repr__, __len__, __contains__.
@@ -76,15 +76,19 @@ class DatabaseService:
         return self._tickets.get(email, [])
 
 
-if __name__ == '__main__':
-    from ticketing_system.models.movie import Genre
+database_service: _DatabaseService = _DatabaseService()
 
-    db = DatabaseService()
+
+def main() -> None:
     movie = Movie(name='Inception', genre=Genre.SCI_FI, duration_minutes=148, rating=8.8, release_year=2010)
-    db.add_movie(movie)
+    database_service.add_movie(movie)
 
-    print(f'str(db): {db}')
-    print(f'repr(db): {repr(db)}')
-    print(f'len(db): {len(db)} tickets')
-    print(f'"Inception" in db: {"Inception" in db}')
-    print(f'"Avatar" in db: {"Avatar" in db}')
+    print(f'str(db): {database_service}')
+    print(f'repr(db): {repr(database_service)}')
+    print(f'len(db): {len(database_service)} tickets')
+    print(f'"Inception" in db: {"Inception" in database_service}')
+    print(f'"Avatar" in db: {"Avatar" in database_service}')
+
+
+if __name__ == '__main__':
+    main()

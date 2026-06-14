@@ -26,28 +26,32 @@ class MoviePromotion(BaseModel):
     @field_validator('discount_percent')
     @classmethod
     def validate_discount(cls, value: float) -> float:
+        # TODO A: Reject invalid percentages
         # Hint: What's a valid percentage range?
         return value
 
     @model_validator(mode='before')
     @classmethod
     def normalize_promo_code(cls, data: dict) -> dict:
+        # TODO B: Normalize the promo code
         # Hint: Normalize so 'summer20' and 'SUMMER20' are treated the same
         return data
 
     @computed_field
     @property
     def final_price(self) -> float:
+        # TODO C: Calculate the discounted price
         # Hint: Calculate what the customer actually pays after the discount
         return 0.0
 
     @model_validator(mode='after')
     def validate_ticket_range(self) -> MoviePromotion:
+        # TODO D: Ensure valid ticket range
         # Hint: The upper bound of a range can't be below the lower bound
         return self
 
 
-if __name__ == '__main__':
+def main() -> None:
     promo = MoviePromotion(promo_code='summer20', base_price=15.0, discount_percent=20, min_tickets=2, max_tickets=6)
     print('Promo:', promo.model_dump())
     print(f'Expected promo_code: SUMMER20, got: {promo.promo_code}')
@@ -57,3 +61,7 @@ if __name__ == '__main__':
     # Uncomment to test validation errors:
     # MoviePromotion(promo_code='X', base_price=15.0, discount_percent=150, min_tickets=1, max_tickets=4)  # invalid discount
     # MoviePromotion(promo_code='X', base_price=15.0, discount_percent=10, min_tickets=5, max_tickets=2)   # invalid range
+
+
+if __name__ == '__main__':
+    main()

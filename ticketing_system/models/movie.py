@@ -6,6 +6,8 @@ from enum import Enum
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
+from ticketing_system.exceptions import BlankMovieNameError, InvalidReleaseYearError
+
 
 class Genre(str, Enum):
     ACTION = 'action'
@@ -41,7 +43,7 @@ class Movie(BaseModel):
     def name_must_not_be_blank(cls, value: str) -> str:
         """Reject empty or whitespace-only movie names."""
         if not value.strip():
-            raise ValueError('Movie name cannot be blank')
+            raise BlankMovieNameError('Movie name cannot be blank')
         return value.strip()
 
     @model_validator(mode='after')
@@ -49,11 +51,11 @@ class Movie(BaseModel):
         """Ensure the release year is not more than one year in the future."""
         current_year = datetime.now().year
         if self.release_year > current_year + 1:
-            raise ValueError(f'Release year {self.release_year} is too far in the future')
+            raise InvalidReleaseYearError(f'Release year {self.release_year} is too far in the future')
         return self
 
 
-if __name__ == '__main__':
+def main() -> None:
     movie = Movie(
         name='Inception',
         genre=Genre.SCI_FI,
@@ -68,3 +70,7 @@ if __name__ == '__main__':
 
     print('\n--- model_dump_json(indent=2) ---')
     print(movie.model_dump_json(indent=2))
+
+
+if __name__ == '__main__':
+    main()

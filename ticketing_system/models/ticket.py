@@ -6,8 +6,17 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from ticketing_system.exceptions import AgeRequirementError
 from ticketing_system.models.customer import Customer
-from ticketing_system.models.movie import Movie
+from ticketing_system.models.movie import Genre, Movie
+
+
+def generate_ticket_id() -> str:
+    return str(uuid.uuid4())
+
+
+def generate_purchase_date() -> datetime:
+    return datetime.now()
 
 
 class Ticket(BaseModel):
@@ -15,12 +24,12 @@ class Ticket(BaseModel):
 
     model_config = ConfigDict(frozen=True)
 
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()), description='Unique ticket identifier')
+    id: str = Field(default_factory=lambda: generate_ticket_id(), description='Unique ticket identifier')  # pylint: disable=unnecessary-lambda
     movie: Movie = Field(description='The movie this ticket is for')
     customer: Customer = Field(description='The customer who purchased the ticket')
     price: float = Field(gt=0, description='Ticket price in USD')
     purchase_date: datetime = Field(
-        default_factory=datetime.now,
+        default_factory=lambda: generate_purchase_date(),  # pylint: disable=unnecessary-lambda
         description='Date and time of purchase',
     )
     seat_number: str = Field(description='Assigned seat (e.g. A12)')
@@ -29,14 +38,12 @@ class Ticket(BaseModel):
     def validate_age_requirement(self) -> Ticket:
         """Ensure the customer meets the movie's minimum age requirement."""
         if self.customer.age < self.movie.min_age:
-            raise ValueError(f'Customer age {self.customer.age} does not meet the minimum age '
-                             f'requirement of {self.movie.min_age} for "{self.movie.name}"')
+            raise AgeRequirementError(f'Customer age {self.customer.age} does not meet the minimum age '
+                                      f'requirement of {self.movie.min_age} for "{self.movie.name}"')
         return self
 
 
-if __name__ == '__main__':
-    from ticketing_system.models.movie import Genre
-
+def main() -> None:
     movie = Movie(name='Inception', genre=Genre.SCI_FI, duration_minutes=148, rating=8.8, release_year=2010)
     customer = Customer(name='Jane Doe', email='jane@example.com', age=30)
     ticket = Ticket(movie=movie, customer=customer, price=15.50, seat_number='B7')
@@ -49,3 +56,7 @@ if __name__ == '__main__':
 
     print('\n--- model_dump(include={"id", "seat_number", "price"}) ---')
     print(ticket.model_dump(include={'id', 'seat_number', 'price'}))
+
+
+if __name__ == '__main__':
+    main()

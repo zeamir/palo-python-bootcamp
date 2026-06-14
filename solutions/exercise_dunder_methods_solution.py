@@ -1,13 +1,12 @@
-from __future__ import annotations
-
-from collections.abc import Iterator
-
 """
 Solution: Dunder Methods (Magic Methods)
 
 This solution demonstrates how to implement common dunder methods to make
 a custom class behave like a built-in Python collection.
 """
+from __future__ import annotations
+
+from collections.abc import Iterator
 
 
 class MovieCollection:
@@ -102,6 +101,7 @@ class MovieCollection:
 # Demo / Test Code
 # ============================================================================
 
+
 def main() -> None:
     """Demonstrate the dunder methods."""
     print('=== Creating a MovieCollection ===')
@@ -134,7 +134,7 @@ def main() -> None:
     print()
 
     print('=== Testing __repr__ ===')
-    print(f'repr(collection):')
+    print('repr(collection):')
     print(f'{repr(collection)}\n')
 
     print('=== Testing error case ===')

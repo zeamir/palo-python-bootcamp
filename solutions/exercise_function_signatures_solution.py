@@ -1,5 +1,8 @@
-# pyre-ignore-all-errors[6,13,15,56]
 """Exercise Solution: Function Arguments"""
+# pyre-ignore-all-errors[6,13,15,56]
+# pylint: disable=invalid-name,missing-kwoa,positional-only-arguments-expected,too-many-function-args,pointless-string-statement
+# pylint: disable=kwarg-superseded-by-positional-arg,no-value-for-parameter,unused-variable
+
 from __future__ import annotations
 
 
@@ -44,13 +47,7 @@ def create_event(title: str, **details: str | int) -> dict:
     return {'title': title, **details}
 
 
-def process_booking(
-    booking_id: int,
-    /,
-    *ticket_ids: str,
-    customer_email: str,
-    **metadata: str | int
-) -> dict:
+def process_booking(booking_id: int, /, *ticket_ids: str, customer_email: str, **metadata: str | int) -> dict:
     """Process a booking with combined argument types.
 
     Args:
@@ -70,7 +67,21 @@ def process_booking(
     }
 
 
-if __name__ == '__main__':
+def book_ticket(customer_name: str, *, movie: str, seat: str) -> str:
+    """Book a ticket where movie and seat must be keyword-only.
+
+    Args:
+        customer_name: Customer name (positional or keyword).
+        movie: Movie title (keyword-only).
+        seat: Seat identifier (keyword-only).
+
+    Returns:
+        Booking confirmation string.
+    """
+    return f'{customer_name} booked {seat} for {movie}'
+
+
+def main() -> None:
     print('=== Task A: format_ticket ===')
     ticket = format_ticket(movie='Inception', seat='A12', price=15.0)
     print(f'Formatted: {ticket}')
@@ -97,13 +108,7 @@ if __name__ == '__main__':
 
     print('=== Task D: process_booking ===')
     booking1 = process_booking(101, customer_email='alice@example.com')
-    booking2 = process_booking(
-        102,
-        'TKT-001', 'TKT-002',
-        customer_email='bob@example.com',
-        payment_method='credit_card',
-        total=42
-    )
+    booking2 = process_booking(102, 'TKT-001', 'TKT-002', customer_email='bob@example.com', payment_method='credit_card', total=42)
     print(f'Booking 1: {booking1}')
     print(f'Booking 2: {booking2}')
     # Test that keyword booking_id fails:
@@ -111,3 +116,21 @@ if __name__ == '__main__':
         bad_booking = process_booking(booking_id=103, customer_email='test@example.com')  # type: ignore
     except TypeError as e:
         print(f'Keyword booking_id correctly rejected: {e}')
+    print()
+
+    print('=== Task E: book_ticket ===')
+    # customer_name positionally
+    result1 = book_ticket('Alice', movie='Inception', seat='A1')
+    # customer_name by name (it's before *, so both work)
+    result2 = book_ticket(customer_name='Bob', movie='The Matrix', seat='B3')
+    print(f'Result 1: {result1}')
+    print(f'Result 2: {result2}')
+    # Test that positional movie/seat fails:
+    try:
+        bad_book = book_ticket('Alice', 'Inception', 'A1')  # type: ignore
+    except TypeError as e:
+        print(f'Positional movie/seat correctly rejected: {e}')
+
+
+if __name__ == '__main__':
+    main()

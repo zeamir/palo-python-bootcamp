@@ -1,7 +1,3 @@
-from __future__ import annotations
-
-from datetime import datetime
-
 """
 Mutable Default Parameters — A Common Python Pitfall
 =====================================================
@@ -12,7 +8,11 @@ custom objects) are shared across all calls that don't provide an explicit value
 
 This file demonstrates the bug in action and shows the correct fix.
 """
+# pylint: disable=dangerous-default-value
+from __future__ import annotations
 
+import time
+from datetime import datetime
 
 # ============================================================================
 # Section 1: The List Default Bug
@@ -128,7 +128,7 @@ def create_ticket_fixed(movie: str, booked_at: datetime | None = None) -> dict[s
 # ============================================================================
 
 
-if __name__ == '__main__':
+def main() -> None:
     print('=== Section 1: List Default Bug ===')
     print('\nBUGGY VERSION:')
     # Call the buggy function twice without providing a watchlist.
@@ -167,7 +167,6 @@ if __name__ == '__main__':
     # The timestamp is captured once when the function is defined, not when it's called.
     ticket1 = create_ticket_buggy('Inception')
     print('Waiting 0.001 seconds...')
-    import time
     time.sleep(0.001)
     ticket2 = create_ticket_buggy('Interstellar')
     print(f'First ticket: {ticket1}')
@@ -185,3 +184,7 @@ if __name__ == '__main__':
     print('\n=== Summary ===')
     print('Rule of thumb: NEVER use mutable defaults (list, dict, set, custom objects).')
     print('Always use None as the sentinel and create the mutable object inside the function body.')
+
+
+if __name__ == '__main__':
+    main()

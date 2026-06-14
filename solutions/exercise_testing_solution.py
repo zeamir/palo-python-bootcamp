@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import unittest
-
-from mockito import expect, mock, unstub
-
 """
 Solution: Unit Testing with Mockito
 
@@ -13,11 +7,17 @@ This solution demonstrates proper unit testing with mockito:
 - Testing both success and failure paths
 - Using PREPARE/MOCK/ACT/ASSERT structure
 """
+# pylint: disable=unused-argument,no-self-use
+from __future__ import annotations
 
+import unittest
+
+from mockito import expect, mock, unstub
 
 # ============================================================================
 # Code Under Test
 # ============================================================================
+
 
 class DatabaseService:
     """Simple database service interface (stub for testing)."""
@@ -31,7 +31,7 @@ class DatabaseService:
         Returns:
             Ticket dict if found, None otherwise.
         """
-        ...
+        return None
 
     def delete_ticket(self, ticket_id: str) -> None:
         """Delete a ticket from the database.
@@ -39,7 +39,6 @@ class DatabaseService:
         Args:
             ticket_id: The ticket identifier.
         """
-        ...
 
 
 class PaymentService:
@@ -55,7 +54,7 @@ class PaymentService:
         Returns:
             True if refund succeeded, False otherwise.
         """
-        ...
+        return False
 
 
 class CancellationService:
@@ -104,6 +103,7 @@ class CancellationService:
 # ============================================================================
 # Tests
 # ============================================================================
+
 
 class CancellationServiceTest(unittest.TestCase):
     """Tests for CancellationService."""

@@ -1,3 +1,5 @@
+# pylint: disable=unused-variable
+
 from functools import lru_cache
 
 from cachetools import TTLCache, cached
@@ -49,7 +51,7 @@ def get_available_movies_cached() -> list[Movie]:
     return list(_MOVIE_DB.values())
 
 
-if __name__ == '__main__':
+def main() -> None:
     print('=== lru_cache demo ===')
     m1 = get_movie_by_name_cached('Inception')
     m2 = get_movie_by_name_cached('Inception')  # cache hit — no print
@@ -65,3 +67,7 @@ if __name__ == '__main__':
     movies2 = get_available_movies_cached()  # cache hit — no print
     print(f'TTLCache size: {len(_available_movies_cache)} / {_available_movies_cache.maxsize}')
     print(f'Movies cached: {[m.name for m in movies1]}')
+
+
+if __name__ == '__main__':
+    main()

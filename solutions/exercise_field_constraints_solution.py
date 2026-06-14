@@ -15,7 +15,11 @@ class SnackOrder(BaseModel):
     category: Literal['drinks', 'snacks', 'meals'] = Field(description='Snack category')
 
 
-if __name__ == '__main__':
+def main() -> None:
     order = SnackOrder(item_name='Popcorn', price=6.50, quantity=2, category='snacks')
     print('Valid order:', order.model_dump())
     print('JSON:', order.model_dump_json(indent=2))
+
+
+if __name__ == '__main__':
+    main()

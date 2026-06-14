@@ -1,7 +1,7 @@
 # pylint: disable=no-self-use
 
 
-class PaymentService:
+class _PaymentService:
     """Handles payment processing for cinema tickets.
 
     This is a demonstration implementation that prints actions rather than
@@ -33,3 +33,6 @@ class PaymentService:
         """
         print(f'[PaymentService] Issuing refund of ${amount:.2f} for ticket {ticket_id}')
         return True
+
+
+payment_service: _PaymentService = _PaymentService()

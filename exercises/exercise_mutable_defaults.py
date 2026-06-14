@@ -1,4 +1,5 @@
 # pyre-ignore-all-errors[6,13,15,56]
+# pylint: disable=dangerous-default-value,kwarg-superseded-by-positional-arg,no-value-for-parameter
 """
 Exercise 3b: Mutable Default Parameters
 ========================================
@@ -24,6 +25,7 @@ See exercise_mutable_defaults_solution.py if you get stuck.
 """
 from __future__ import annotations
 
+import time
 from datetime import datetime
 
 
@@ -37,8 +39,7 @@ def add_to_favorites(title: str, favorites: list[str] = []) -> list[str]:
     Returns:
         The updated favorites list.
     """
-    # TODO A: Fix the mutable default bug.
-    # Bug: All calls that don't provide a favorites argument share the same list.
+    # TODO A: Fix the shared-list bug
     # Hint: Use None as the default and create a new list inside the function.
     favorites.append(title)
     return favorites
@@ -54,8 +55,7 @@ def log_booking(booking_id: int, tags: dict[str, str] = {}) -> dict[str, str]:
     Returns:
         The tags dict with booking_id added.
     """
-    # TODO B: Fix the mutable default bug.
-    # Bug: All calls that don't provide a tags argument share the same dict.
+    # TODO B: Fix the shared-dict bug
     # Hint: Use None as the default and create a new dict inside the function.
     tags['booking_id'] = str(booking_id)
     return tags
@@ -71,13 +71,12 @@ def stamp_ticket(movie: str, created_at: datetime = datetime.now()) -> dict[str,
     Returns:
         A ticket dict with movie and timestamp.
     """
-    # TODO C: Fix the timestamp default bug.
-    # Bug: datetime.now() is evaluated once at module import, not each call.
+    # TODO C: Fix the stale-timestamp bug
     # Hint: Use None as the default and call datetime.now() inside the function.
     return {'movie': movie, 'created_at': created_at}
 
 
-if __name__ == '__main__':
+def main() -> None:
     print('=== Testing add_to_favorites ===')
     fav1 = add_to_favorites('Inception')
     fav2 = add_to_favorites('Interstellar')
@@ -96,10 +95,13 @@ if __name__ == '__main__':
 
     print('\n=== Testing stamp_ticket ===')
     ticket1 = stamp_ticket('Inception')
-    import time
     time.sleep(0.01)
     ticket2 = stamp_ticket('Interstellar')
     print(f'First ticket: {ticket1}')
     print(f'Second ticket: {ticket2}')
     print('Expected: Different timestamps for each ticket')
     print('If timestamps are identical, the bug is still present!')
+
+
+if __name__ == '__main__':
+    main()

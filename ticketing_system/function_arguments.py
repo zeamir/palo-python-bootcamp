@@ -1,5 +1,6 @@
-from __future__ import annotations
-
+# pylint: disable=invalid-name,missing-kwoa,positional-only-arguments-expected,too-many-function-args,pointless-string-statement
+# pylint: disable=unused-variable
+# pylint: disable=dangerous-default-value
 """
 Function Arguments Teaching File
 =================================
@@ -96,13 +97,7 @@ def configure_screening(**options: str | int | bool) -> dict:
 # ORDER: def func(pos_only, /, regular, *args, kw_only, **kwargs)
 
 
-def create_event(
-    event_id: int, /,
-    title: str,
-    *tags: str,
-    priority: str = 'normal',
-    **metadata: str | int
-) -> dict:
+def create_event(event_id: int, /, title: str, *tags: str, priority: str = 'normal', **metadata: str | int) -> dict:
     """Create an event with all parameter types.
 
     Args:
@@ -129,14 +124,7 @@ def create_event(
 #       or when argument order is non-obvious.
 
 
-def book_premium_ticket(
-    *,
-    customer_email: str,
-    movie_title: str,
-    seat_number: str,
-    price: float,
-    payment_method: str
-) -> dict:
+def book_premium_ticket(*, customer_email: str, movie_title: str, seat_number: str, price: float, payment_method: str) -> dict:
     """Book a premium ticket (all args must be named to prevent mistakes).
 
     Args:
@@ -159,7 +147,7 @@ def book_premium_ticket(
     }
 
 
-if __name__ == '__main__':
+def main() -> None:
     print('=== 1. Keyword-only arguments ===')
     booking = create_booking(customer='alice@example.com', movie='Inception', tickets=2)
     print(f'Valid call: {booking}')
@@ -192,27 +180,19 @@ if __name__ == '__main__':
     print(f'Config 2: {config2}\n')
 
     print('=== 5. Combined usage ===')
-    event = create_event(
-        42,
-        'Star Wars Marathon',
-        'sci-fi', 'marathon', 'classic',
-        priority='high',
-        duration=720,
-        venue='Theater 3'
-    )
+    event = create_event(42, 'Star Wars Marathon', 'sci-fi', 'marathon', 'classic', priority='high', duration=720, venue='Theater 3')
     print(f'Event: {event}\n')
 
     print('=== 6. Real-world pattern: Preventing mistakes ===')
-    ticket = book_premium_ticket(
-        customer_email='bob@example.com',
-        movie_title='The Matrix',
-        seat_number='C15',
-        price=25.0,
-        payment_method='credit_card'
-    )
+    ticket = book_premium_ticket(customer_email='bob@example.com', movie_title='The Matrix', seat_number='C15', price=25.0,
+                                 payment_method='credit_card')
     print(f'Premium ticket: {ticket}')
     try:
         # This will fail: all args must be named
         bad_ticket = book_premium_ticket('bob@example.com', 'The Matrix', 'C15', 25.0, 'credit_card')  # type: ignore[reportCallIssue]
     except TypeError as e:
         print(f'Invalid call (positional): {e}')
+
+
+if __name__ == '__main__':
+    main()

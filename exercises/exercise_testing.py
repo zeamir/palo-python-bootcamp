@@ -1,11 +1,3 @@
-from __future__ import annotations
-
-# pyre-ignore-all-errors[6,13,15,56]
-
-import unittest
-
-from mockito import expect, mock, unstub
-
 """
 Exercise: Unit Testing with Mockito
 
@@ -13,8 +5,6 @@ In this exercise, you'll write unit tests for a CancellationService using
 the mockito library for mocking dependencies. This demonstrates how to test
 business logic in isolation without depending on real database or payment
 services.
-
-Reference: tests/test_booking_service.py
 
 Key Testing Concepts:
 - PREPARE: Set up test data and mock objects
@@ -27,11 +17,16 @@ Mockito Pattern:
 - NEVER use unittest.mock (patch, Mock, MagicMock)
 - Always specify times parameter for every expectation
 """
+# pyre-ignore-all-errors[6,13,15,56]
+# pylint: disable=unnecessary-pass,unused-argument,no-self-use,unnecessary-ellipsis
+from __future__ import annotations
 
+import unittest
 
 # ============================================================================
 # Code Under Test (provided for you)
 # ============================================================================
+
 
 class DatabaseService:
     """Simple database service interface (stub for testing)."""
@@ -119,6 +114,7 @@ class CancellationService:
 # Your Tests Go Here
 # ============================================================================
 
+
 class CancellationServiceTest(unittest.TestCase):
     """Tests for CancellationService."""
 
@@ -132,7 +128,7 @@ class CancellationServiceTest(unittest.TestCase):
 
         Hint: Use mock() from mockito to create mock objects.
         """
-        # TODO: Implement this
+        # TODO: Set up mocks and service
         pass
 
     def tearDown(self) -> None:
@@ -144,7 +140,7 @@ class CancellationServiceTest(unittest.TestCase):
         Hint: This ensures that mock expectations don't leak between tests.
         tearDown is called after every test method, whether it passes or fails.
         """
-        # TODO: Implement this
+        # TODO: Clean up mocks
         pass
 
     def test_successful_cancellation(self) -> None:

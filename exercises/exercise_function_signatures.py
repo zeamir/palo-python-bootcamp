@@ -1,4 +1,3 @@
-# pyre-ignore-all-errors[6,13,15,56]
 """
 Exercise: Function Arguments
 =============================
@@ -7,8 +6,8 @@ Goal: Practice using Python's function argument types in the cinema ticketing do
 
 Instructions:
     1. Complete the four function stubs where marked with HINT comments.
-    2. Run the file to test your functions: poetry run python exercises/exercise_function_args.py
-    3. Compare with exercise_function_args_solution.py if you get stuck.
+    2. Run the file to test your functions: poetry run python exercises/exercise_function_signatures.py
+    3. Compare with exercise_function_signatures_solution.py if you get stuck.
 
 Tasks:
     A) format_ticket:
@@ -33,7 +32,15 @@ Tasks:
         - Accept any additional keyword metadata after customer_email
         - Return a dict with all booking details
         - Hint: Combine all techniques (/, *, *args, **kwargs)
+
+    E) book_ticket:
+        - customer_name can be passed positionally OR by name
+        - movie and seat must be keyword-only (use bare * separator)
+        - Return a string like: "Alice booked A1 for Inception"
+        - Hint: Use a single * to separate positional-or-keyword from keyword-only
 """
+# pyre-ignore-all-errors[6,13,15,56]
+# pylint: disable=unnecessary-pass,unused-argument,no-self-use,unnecessary-ellipsis
 from __future__ import annotations
 
 
@@ -50,6 +57,7 @@ def format_ticket(movie: str, seat: str, price: float) -> str:
     Returns:
         Formatted ticket string.
     """
+    # TODO A: Make all parameters keyword-only
     # Hint: Callers shouldn't be able to pass these arguments positionally
     return f'Ticket: {movie} | Seat {seat} | ${price:.2f}'
 
@@ -65,6 +73,7 @@ def calculate_group_total(*prices: float) -> float:
     Returns:
         Total price with 10% group discount applied.
     """
+    # TODO B: Calculate discounted group total
     # Hint: Sum all the prices, then apply the group discount
     return 0.0
 
@@ -81,6 +90,7 @@ def create_event(title: str, **details: str | int) -> dict:
     Returns:
         Event details dict including title and all additional details.
     """
+    # TODO C: Return all event details
     # Hint: The returned dict should include the title AND all the extra keyword details
     return {'title': title}
 
@@ -99,6 +109,7 @@ def process_booking(booking_id: int, *ticket_ids: str, customer_email: str, **me
     Returns:
         Booking details dict.
     """
+    # TODO D: Make booking_id positional-only and return all booking details
     # Hint: booking_id should not be passable by name; return all booking details including ticket IDs and metadata
     return {
         'booking_id': booking_id,
@@ -106,7 +117,26 @@ def process_booking(booking_id: int, *ticket_ids: str, customer_email: str, **me
     }
 
 
-if __name__ == '__main__':
+def book_ticket(customer_name: str, movie: str, seat: str) -> str:
+    """Book a ticket where movie and seat must be keyword-only.
+
+    Hint: Use a bare * to make movie and seat keyword-only while allowing
+    customer_name to be passed either way.
+
+    Args:
+        customer_name: Customer name (positional or keyword).
+        movie: Movie title (keyword-only).
+        seat: Seat identifier (keyword-only).
+
+    Returns:
+        Booking confirmation string.
+    """
+    # TODO E: Make movie and seat keyword-only
+    # Hint: Add a bare * between customer_name and movie in the signature
+    return f'{customer_name} booked {seat} for {movie}'
+
+
+def main() -> None:
     print('=== Task A: format_ticket ===')
     ticket = format_ticket(movie='Inception', seat='A12', price=15.0)
     print(f'Formatted: {ticket}')
@@ -131,3 +161,17 @@ if __name__ == '__main__':
     booking2 = process_booking(102, 'TKT-001', 'TKT-002', customer_email='bob@example.com', payment='credit')
     print(f'Booking 1: {booking1}')
     print(f'Booking 2: {booking2}')
+    print()
+
+    print('=== Task E: book_ticket ===')
+    # Both of these should work:
+    result1 = book_ticket('Alice', movie='Inception', seat='A1')
+    result2 = book_ticket(customer_name='Bob', movie='The Matrix', seat='B3')
+    print(f'Result 1: {result1}')
+    print(f'Result 2: {result2}')
+    # This should fail (movie/seat are keyword-only):
+    # book_ticket('Alice', 'Inception', 'A1')  # TypeError!
+
+
+if __name__ == '__main__':
+    main()
