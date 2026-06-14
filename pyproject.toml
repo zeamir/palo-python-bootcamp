@@ -3,7 +3,7 @@ name = "palo-cyberark-python-bootcamp"
 version = "1.0"
 description = "Python Bootcamp"
 readme = "README.md"
-repository = "https://github.cyberng.com/azahavi/python-bootcamp"
+repository = "https://github.com/zeamir/palo-python-bootcamp"
 package-mode = false
 
 [tool.poetry.group.dev.dependencies]

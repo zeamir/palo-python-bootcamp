@@ -1,8 +1,11 @@
 # pyre-ignore-all-errors[6,13,15,56]
+# pylint: disable=unused-import,unused-variable
+
 from __future__ import annotations
 
 from dataclasses import dataclass
 
+from solutions.exercise_validators_solution import MoviePromotion
 from ticketing_system.exceptions import InvalidDiscountError, InvalidPriceError, InvalidTicketCountError, InvalidTicketRangeError
 
 
@@ -309,5 +312,24 @@ def main() -> None:
     print('\nSee the comparison comment block above for when to use each approach.')
 
 
+def demo_pydantic() -> None:
+    model = MoviePromotion(
+        promo_code='spring15',
+        base_price=12.0,
+        discount_percent=15,
+        min_tickets=11,
+        max_tickets=5,
+    )
+    # model2 =model.model_copy()
+    # assert model == model2
+    # assert model is not model2
+    # # create set
+    # movie_promotions = {model}
+    # assert model2 not in movie_promotions
+
+
 if __name__ == '__main__':
     main()
+
+    # create pydantic model instance to show it works
+    # demo_pydantic()

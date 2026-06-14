@@ -50,6 +50,9 @@ class MoviePromotion(BaseModel):
         # Hint: The upper bound of a range can't be below the lower bound
         return self
 
+    # def __hash__(self) -> int:
+    #     return hash((self.promo_code, self.base_price, self.discount_percent, self.min_tickets, self.max_tickets))
+
 
 def main() -> None:
     promo = MoviePromotion(promo_code='summer20', base_price=15.0, discount_percent=20, min_tickets=2, max_tickets=6)
